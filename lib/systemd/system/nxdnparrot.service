@@ -1,0 +1,22 @@
+[Unit]
+Description=NXDN Parrot Service
+# Description=Place this file in /lib/systemd/system
+# Description=N4IRS 07/01/2024
+
+After=netcheck.service
+Requires=netcheck.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=3
+StandardOutput=null
+WorkingDirectory=/opt/NXDNParrot
+ExecStartPre = /usr/bin/sh -c 'echo "Starting NXDNParrot: [`date +%%T.%%3N`]" >> /var/log/netcheck'
+ExecStart=/opt/NXDNParrot/NXDNParrot 42021 
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+
